@@ -1,15 +1,3 @@
-/*
-Viewers:
-1.Make unit tests!!!
-2.Make documentation
-3.Make header file
-
-Answers
-1.
-2. Complete
-3. Complete
-*/
-
 #include"stack.h"
 
 int StackInit(stack_t** self, size_t size, char* name)
