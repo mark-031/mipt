@@ -65,6 +65,7 @@ int test5()
     return 0;
 }
 
+
 int test()
 {
     // Wrong init
