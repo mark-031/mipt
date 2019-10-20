@@ -1,5 +1,5 @@
 #define STACKDEBUG
-#include<stack.cpp>
+#include"stack.cpp"
 
 int test1()
 {
@@ -39,10 +39,34 @@ int test3()
     return 0;
 }
 
-int test()
+int test4()
 {
     stack_t* t_stk = nullptr;
 
+    StackInit(t_stk, 8);
+    t_stk->hash += 12;
+
+    if(StackOk(t_stk) != BadHash)
+        return 1;
+
+    return 0;
+}
+
+int test5()
+{
+    stack_t* t_stk = nullptr;
+
+    StackInit(t_stk, 8);
+    t_stk->counter = 9;
+
+    if(StackOk(t_stk) != BadCounter)
+        return 1;
+
+    return 0;
+}
+
+int test()
+{
     // Wrong init
     if (test1())
         return 1;
@@ -55,4 +79,17 @@ int test()
     if (test3())
         return 3;
 
+    // Hash attack
+    if (test4())
+        return 4;
+    
+    if (test5())
+        return 5;
+    
+    return 0;
+}
+
+int main()
+{
+    printf("%d\n", test());
 }

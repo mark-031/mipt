@@ -75,7 +75,7 @@ struct stack_t
     @param size Размер стека
     @return Код ошибки
 */
-int       StackInit(stack_t** self, size_t size);
+int       StackInit(stack_t** self, size_t size, char* name);
 
 /*!
     Освобождает стек

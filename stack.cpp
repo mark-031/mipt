@@ -12,6 +12,7 @@ int StackInit(stack_t** self, size_t size, char* name)
     if (*self == nullptr)
         return 2;
 
+    (*self)->name    = name;
     (*self)->size    = size;
     (*self)->counter = 0;
     (*self)->state   = OK;
@@ -30,7 +31,7 @@ int StackInit(stack_t** self, size_t size, char* name)
     
     return 0;
 }
-#define StackInit(name, size) StackInit(&##name, size, #name)
+#define StackInit(name, size) StackInit(&name, size, #name)
 
 
 int StackFinilize(stack_t** self)
@@ -167,13 +168,13 @@ int StackDump(stack_t* self)
         printf("    canary = " CANARY_T "\n", self->canary);
     );
 
-    printf("    size = %llu\n", self->size);
-    printf("    counter = %d\n", self->counter);
+    printf("    size = %lu\n", self->size);
+    printf("    counter = %ld\n", self->counter);
     printf("    state = %d\n", self->state);
     printf("    {\n");
     for(size_t i = 0; i < self->size; ++i)
     {
-        printf("        data[%d] = " STACKUNIT_T, i, self->data[i]);
+        printf("        data[%ld] = " STACKUNIT_T, i, self->data[i]);
 
         $debugcode(
         if (i >= self->counter)
