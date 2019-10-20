@@ -1,6 +1,7 @@
 doxygen/
 .vscode/
 .vscode.bak/
+.gitignore
 a.out
 doxygenConfig
 utils.h
