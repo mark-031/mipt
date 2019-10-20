@@ -15,7 +15,7 @@ int test2()
 {
     stack_t* t_stk = nullptr;
 
-    int item = 0;
+    int item = 10;
     StackInit(t_stk, 8);
     StackPush(t_stk, item);
     StackPop(t_stk, &item);
@@ -71,7 +71,7 @@ int test()
     // Wrong init
     if (test1())
         return 1;
-    
+
     // Push and Pop check
     if (test2())
         return 2;
@@ -84,6 +84,7 @@ int test()
     if (test4())
         return 4;
     
+    //
     if (test5())
         return 5;
     

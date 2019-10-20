@@ -2,7 +2,10 @@
 
 int StackInit(stack_t** self, size_t size, char* name)
 {
-    if (size < 1)
+    size_t gb = 1;
+    gb <<= 31;
+
+    if (size < 1 || size * sizeof(stackunit_t) > gb)
         return 1;
 
     size_t dataSize = _StackSizeCalc(size);
