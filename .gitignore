@@ -1,0 +1,9 @@
+doxygen/
+.vscode/
+.vscode.bak/
+a.out
+doxygenConfig
+utils.h
+stack.h.gch
+main.cpp
+main
