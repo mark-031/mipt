@@ -1,11 +1,10 @@
 #include"stack.h"
 
+const size_t MAXBSIZE = 1 << 30;
+
 int StackInit(stack_t** self, size_t size, char* name)
 {
-    size_t gb = 1;
-    gb <<= 31;
-
-    if (size < 1 || size * sizeof(stackunit_t) > gb)
+    if (size < 1 || size * sizeof(stackunit_t) > MAXBSIZE)
         return 1;
 
     size_t dataSize = _StackSizeCalc(size);
