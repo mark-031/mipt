@@ -65,6 +65,20 @@ int test5()
     return 0;
 }
 
+int test6()
+{
+    stack_t* t_stk = nullptr;
+
+    StackInit(t_stk, 2);
+    for(int i = 0; i < 5; i++)
+    {
+        if(StackPush(t_stk, i))
+            return 1;
+    }
+
+    return 0;
+}
+
 
 int test()
 {
@@ -84,9 +98,13 @@ int test()
     if (test4())
         return 4;
     
-    //
+    //Counter attack
     if (test5())
         return 5;
+
+    //Realloc check
+    if(test6())
+        return 6;
     
     return 0;
 }
