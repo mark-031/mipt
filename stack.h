@@ -127,11 +127,11 @@ int       StackDump(stack_t* self);
     @param dataSize Размер стека
     @return Количество памяти в байтах
 */
-size_t   _StackSizeCalc(size_t dataSize);
+size_t   StackSizeCalc(size_t dataSize);
 
 /*!
     Вычисляет хэш стека
     @param self Стек
     @return Хэш
 */
-hash_t   _StackHashCalc(const stack_t* self);
+hash_t   StackHashCalc(const stack_t* self);

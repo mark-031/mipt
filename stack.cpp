@@ -7,7 +7,7 @@ int StackInit(stack_t** self, size_t size, char* name)
     if (size < 1 || size * sizeof(stackunit_t) > MAXBSIZE)
         return 1;
 
-    size_t dataSize = _StackSizeCalc(size);
+    size_t dataSize = StackSizeCalc(size);
     assert(dataSize > 0);
     
     *self = (stack_t*) calloc(1, dataSize);
@@ -26,9 +26,9 @@ int StackInit(stack_t** self, size_t size, char* name)
             (*self)->data[i] = POISON;
             
 
-        *(canary_t*) &(*self)->data[size] = CANARY;
+        *(canary_t*) ((*self)->data + size) = CANARY;
 
-        (*self)->hash = _StackHashCalc(*self);
+        (*self)->hash = StackHashCalc(*self);
     );
     
     return 0;
@@ -63,7 +63,7 @@ int StackOk(stack_t* self)
         else if (self->canary != CANARY || self->data[self->size] != CANARY)
             self->state = BadCanary;
         
-        else if (self->hash != _StackHashCalc(self))
+        else if (self->hash != StackHashCalc(self))
             self->state = BadHash;
 
         for(size_t i = self->counter; i < self->size; ++i)
@@ -93,7 +93,7 @@ int StackPop(stack_t* self, stackunit_t* item)
 
     $debugcode(
         self->data[self->counter] = POISON;
-        self->hash = _StackHashCalc(self);
+        self->hash = StackHashCalc(self);
     );
 
     return 0;
@@ -116,7 +116,7 @@ int StackPush(stack_t* self, stackunit_t item)
     self->data[self->counter++] = item;
 
     $debugcode(
-        self->hash = _StackHashCalc(self);
+        self->hash = StackHashCalc(self);
     );
 
     return 0;
@@ -129,16 +129,12 @@ int StackRealloc(stack_t** self, size_t newSize)
     if (StackOk(*self) != OK)
         return 1;
 
-    stack_t* newStack = (stack_t*) realloc(*self, _StackSizeCalc(newSize));
+    stack_t* newStack = (stack_t*) realloc(*self, StackSizeCalc(newSize));
 
     if (newStack == nullptr)
         return 2;
 
-    if (*self != newStack)
-    {
-        free(*self);
-        *self = newStack;
-    }
+    *self = newStack;
 
     $debugcode(
         for(size_t i = (*self)->size; i < newSize; i++)
@@ -152,7 +148,7 @@ int StackRealloc(stack_t** self, size_t newSize)
     (*self)->size = newSize;
 
     $debugcode(
-        (*self)->hash = _StackHashCalc(*self);
+        (*self)->hash = StackHashCalc(*self);
     );
 
     assert(StackOk(*self) == OK);
@@ -199,12 +195,12 @@ int StackDump(stack_t* self)
     return (self->state);
 } 
 
-size_t _StackSizeCalc(size_t dataSize)
+size_t StackSizeCalc(size_t dataSize)
 {
     return sizeof(stack_t) + sizeof(stackunit_t) * (dataSize - MINSTACKSIZE) $debugcode( + sizeof(canary_t));
 }
 
-hash_t _StackHashCalc(const stack_t* self)
+hash_t StackHashCalc(const stack_t* self)
 {
     unsigned char* start = (unsigned char*) self;
     unsigned char* end   = (unsigned char*) (&self->data[self->size]);
